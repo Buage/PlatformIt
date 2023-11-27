@@ -16,11 +16,11 @@
       fetch('https://platformitdb.000webhostapp.com/')
         .then(response => response.json())
         .then(data => {
-          Object.keys(data).forEach(levelName => {
+          Object.keys(data).forEach(levelId => {
             const listItem = document.createElement('li');
             const link = document.createElement('a');
-            link.textContent = levelName;
-            link.href = `play.html?q=${encodeURIComponent(levelName)}`;
+            link.textContent = `Level ${levelId}`;
+            link.href = `play.html?q=${encodeURIComponent(levelId)}`;
             listItem.appendChild(link);
             levelList.appendChild(listItem);
           });
