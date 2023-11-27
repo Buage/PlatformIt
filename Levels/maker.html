@@ -125,25 +125,15 @@
         }
       }, 20);
 
-      document.addEventListener('keydown', function(event) {
-        if (event.code === 'ArrowRight') {
-          const characterX = parseInt(character.style.left) || 0;
-          character.style.left = `${characterX + 10}px`;
-        } else if (event.code === 'ArrowLeft') {
-          const characterX = parseInt(character.style.left) || 0;
-          character.style.left = `${characterX - 10}px`;
-        } else if (event.code === 'Space' && !isJumping) {
-          isJumping = true;
-          jump();
-        }
-      });
-
+      let canJump = true; // Flag to control jumping
+      
       function jump() {
         let jumpInterval = setInterval(() => {
           const characterTop = parseInt(character.style.top) || 0;
 
-          if (characterTop <= 0) {
+          if (characterTop <= 0 || !canJump) {
             isJumping = false;
+            canJump = true; // Reset canJump flag
             clearInterval(jumpInterval);
           } else {
             characterY += jumpForce;
@@ -151,6 +141,20 @@
           }
         }, 20);
       }
+
+      document.addEventListener('keydown', function(event) {
+        if (event.code === 'ArrowRight') {
+          const characterX = parseInt(character.style.left) || 0;
+          character.style.left = `${characterX + 10}px`;
+        } else if (event.code === 'ArrowLeft') {
+          const characterX = parseInt(character.style.left) || 0;
+          character.style.left = `${characterX - 10}px`;
+        } else if (event.code === 'Space' && !isJumping && canJump) {
+          isJumping = true;
+          canJump = false; // Set canJump flag to prevent multiple jumps
+          jump();
+        }
+      });
     }
   </script>
 </body>
