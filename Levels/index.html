@@ -3,37 +3,86 @@
 <head>
   <meta charset="UTF-8">
   <title>Levels</title>
+  <style>
+    .level-card {
+      border: 1px solid #ccc;
+      padding: 20px;
+      margin: 10px;
+      width: 300px;
+      height: 300px;
+      display: none;
+    }
+    .active {
+      display: block;
+    }
+    .level-image {
+      max-width: 100%;
+      height: auto;
+    }
+  </style>
 </head>
 <body>
-  <div>
-    <h1>Select a level:</h1>
-    <ul id="levelList">
-      <!-- Levels will be dynamically added here -->
-    </ul>
-  </div>
+  <div class="level-container"></div>
 
   <script>
-    // Fetch levels from the server
-    fetch('https://platformitdb.000webhostapp.com/')
-      .then(response => response.json())
-      .then(data => {
-        // Assuming the levels are returned as an array of objects with 'name' property
-        const levels = data.levels; // Replace 'levels' with the appropriate property name
+    document.addEventListener('DOMContentLoaded', function() {
+      const levelContainer = document.querySelector('.level-container');
 
-        const levelList = document.getElementById("levelList");
+      fetch('https://platformitdb.000webhostapp.com/')
+        .then(response => response.json())
+        .then(data => {
+          data.forEach((level, index) => {
+            const levelCard = document.createElement('div');
+            levelCard.classList.add('level-card');
+            if (index === 0) {
+              levelCard.classList.add('active');
+            }
 
-        levels.forEach(level => {
-          const listItem = document.createElement("li");
-          const levelLink = document.createElement("a");
-          levelLink.href = `Play/${level.name}.html`; // Assuming level names are used for href
-          levelLink.textContent = level.name; // Replace 'name' with the appropriate property name
-          listItem.appendChild(levelLink);
-          levelList.appendChild(listItem);
+            const levelTitle = document.createElement('h2');
+            levelTitle.textContent = level.name;
+
+            const levelDescription = document.createElement('p');
+            levelDescription.textContent = level.description;
+
+            const levelImage = document.createElement('img');
+            levelImage.src = level.image;
+            levelImage.alt = level.name;
+            levelImage.classList.add('level-image');
+
+            levelCard.appendChild(levelTitle);
+            levelCard.appendChild(levelDescription);
+            levelCard.appendChild(levelImage);
+
+            levelContainer.appendChild(levelCard);
+          });
+
+          document.addEventListener('keydown', function(event) {
+            const levels = document.querySelectorAll('.level-card');
+            let currentLevel = [...levels].findIndex(level => level.classList.contains('active'));
+
+            if (event.key === 'ArrowRight') {
+              currentLevel = (currentLevel + 1) % levels.length;
+              showLevel(levels, currentLevel);
+            } else if (event.key === 'ArrowLeft') {
+              currentLevel = (currentLevel - 1 + levels.length) % levels.length;
+              showLevel(levels, currentLevel);
+            }
+          });
+        })
+        .catch(error => {
+          console.error('Error fetching levels:', error);
         });
-      })
-      .catch(error => {
-        console.error('Error fetching levels:', error);
-      });
+
+      function showLevel(levels, index) {
+        levels.forEach((level, idx) => {
+          if (idx === index) {
+            level.classList.add('active');
+          } else {
+            level.classList.remove('active');
+          }
+        });
+      }
+    });
   </script>
 </body>
 </html>
