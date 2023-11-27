@@ -20,7 +20,7 @@
       padding: 10px;
       margin-bottom: 5px;
       cursor: pointer;
-      transition: transform 0.2s; /* Smooth transition for scaling */
+      transition: transform 0.2s; /* Smooth transition for scaling and positioning */
     }
 
     .toolbox-item img {
@@ -29,7 +29,7 @@
     }
 
     .toolbox-item.selected {
-      transform: scale(1.2); /* Scale up the selected icon */
+      transform: scale(1.2) translateX(3px); /* Scale up and move slightly to the right */
     }
   </style>
 </head>
