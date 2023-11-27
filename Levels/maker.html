@@ -107,11 +107,24 @@
       let characterY = 50; // Initial Y position
       let characterX = 50; // Initial X position
       const gravity = 8; // Gravity value
+      let isJumping = false; // Flag to control jumping
       const jumpForce = 10; // Jump force value
 
+      const fallInterval = setInterval(() => {
+        characterY += gravity; // Apply gravity to Y position
+        character.style.top = `${characterY}px`; // Update character's top position
+
+        const contentHeight = document.querySelector('.main-content').clientHeight; // Get content height
+        const characterHeight = character.clientHeight; // Get character height
+
+        // Check collision with the bottom of the content
+        if (characterY + characterHeight >= contentHeight) {
+          characterY = contentHeight - characterHeight; // Prevent falling through the floor
+          character.style.top = `${characterY}px`;
+          clearInterval(fallInterval); // Stop falling when hitting the bottom
+        }
+      
       wait(4)
-       let isJumping = false; // Flag to control jumping
-            const jumpForce = 10; // Jump force value
       document.addEventListener('keydown', (event) => {
         if (event.code === 'ArrowLeft') {
           characterX -= 5; // Move left
