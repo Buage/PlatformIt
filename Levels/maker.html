@@ -57,6 +57,7 @@
   <div class="main-content" onclick="placeSelectedItem(event)">
     <!-- Main content area (grid or other content) -->
     <!-- Your level maker content goes here -->
+    <button onclick="spawnCharacter()">Test</button> <!-- Test button -->
   </div>
 
   <script>
@@ -86,6 +87,17 @@
 
         document.querySelector('.main-content').appendChild(newItem); // Append the new item to the main content
       }
+    }
+    function spawnCharacter() {
+      const character = document.createElement('div');
+      character.style.position = 'absolute';
+      character.style.left = '50px'; // Set the initial X position of the character
+      character.style.top = '50px'; // Set the initial Y position of the character
+      character.style.width = '50px'; // Set the width of the character
+      character.style.height = '50px'; // Set the height of the character
+      character.style.backgroundColor = 'red'; // Customize character appearance
+
+      document.querySelector('.main-content').appendChild(character);
     }
   </script>
 </body>
