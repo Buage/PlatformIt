@@ -103,50 +103,55 @@
     const gravityForce = 8; // Gravity value
     const jumpForce = -15; // Jump force
 
-    let isCharacterOnGround = true; // Flag to check if the character is on the ground
-
-    
     function spawnCharacter() {
       const character = document.createElement('div');
       character.classList.add('character'); // Add character class for styling
       document.querySelector('.main-content').appendChild(character);
 
-    setInterval(() => {
-      // Check collisions with the ground
-      const contentHeight = document.querySelector('.main-content').clientHeight;
-      const characterHeight = character.clientHeight;
+      setInterval(() => {
+        // Apply gravity to Y position
+        if (!isJumping) {
+          characterY += gravityForce;
+          character.style.top = `${characterY}px`;
+        }
 
-      if (characterY + characterHeight >= contentHeight) {
-        characterY = contentHeight - characterHeight; // Adjust character position
-        character.style.top = `${characterY}px`;
-        isCharacterOnGround = true; // Character is on the ground
-      }
-    }, 20);
+        const contentHeight = document.querySelector('.main-content').clientHeight; // Get content height
+        const characterHeight = character.clientHeight; // Get character height
 
-    document.addEventListener('keydown', function(event) {
-      if (event.code === 'ArrowRight') {
-        // Existing right movement code remains unchanged
-      } else if (event.code === 'ArrowLeft') {
-        // Existing left movement code remains unchanged
-      } else if (event.code === 'Space' && isCharacterOnGround) {
-        jump();
-      }
-    });
-
-    function jump() {
-      isCharacterOnGround = false; // Character is jumping
-      let jumpInterval = setInterval(() => {
-        const characterTop = parseInt(character.style.top) || 0;
-
-        if (characterTop <= 0) {
-          clearInterval(jumpInterval);
-        } else {
-          characterY += jumpForce;
+        // Check collision with the bottom of the content
+        if (characterY + characterHeight >= contentHeight) {
+          characterY = contentHeight - characterHeight; // Prevent falling through the floor
           character.style.top = `${characterY}px`;
         }
       }, 20);
+
+      document.addEventListener('keydown', function(event) {
+        if (event.code === 'ArrowRight') {
+          const characterX = parseInt(character.style.left) || 0;
+          character.style.left = `${characterX + 10}px`;
+        } else if (event.code === 'ArrowLeft') {
+          const characterX = parseInt(character.style.left) || 0;
+          character.style.left = `${characterX - 10}px`;
+        } else if (event.code === 'Space' && !isJumping) {
+          isJumping = true;
+          jump();
+        }
+      });
+
+      function jump() {
+        let jumpInterval = setInterval(() => {
+          const characterTop = parseInt(character.style.top) || 0;
+
+          if (characterTop <= 0) {
+            isJumping = false;
+            clearInterval(jumpInterval);
+          } else {
+            characterY += jumpForce;
+            character.style.top = `${characterY}px`;
+          }
+        }, 20);
+      }
     }
-  }
   </script>
 </body>
 </html>
