@@ -99,64 +99,79 @@
       }
     }
 
-    function spawnCharacter() {
-      const character = document.createElement('div');
-      character.classList.add('character'); // Add character class for styling
-      document.querySelector('.main-content').appendChild(character);
+  function spawnCharacter() {
+    // ... (Previous character spawn logic remains unchanged) ...
 
-      let characterY = 850; // Initial Y position
-      let characterX = 50; // Initial X position
-      let isJumping = false; // Flag to control jumping
-      const gravity = 1.5; // Gravity value
-      const jumpForce = 15; // Jump force value
+    let characterY = 850; // Initial Y position
+    let characterX = 50; // Initial X position
+    let isJumping = false; // Flag to control jumping
+    const gravity = 8; // Gravity value
+    const jumpForce = 2; // Jump force value
 
-      // Apply gravity immediately after spawning
-      const gravityInterval = setInterval(() => {
-        if (characterY < 860) {
-          characterY += gravity; // Apply gravity
-          character.style.top = `${characterY}px`; // Update character's top position
-        }
-      }, 20);
+    // Apply gravity immediately after spawning
+    const gravityInterval = setInterval(() => {
+      if (characterY < 860) {
+        characterY += gravity; // Apply gravity
+        character.style.top = `${characterY}px`; // Update character's top position
 
-      // Enable controls after 4 seconds
-      setTimeout(() => {
-        clearInterval(gravityInterval); // Stop gravity after 4 seconds
-        let enableControls = true; // Flag to enable controls
-
-        document.addEventListener('keydown', (event) => {
-          if (enableControls) {
-            if (event.code === 'ArrowLeft') {
-              characterX -= 5; // Move left
-            } else if (event.code === 'ArrowRight') {
-              characterX += 5; // Move right
-            } else if (event.code === 'Space' && !isJumping) {
-              isJumping = true; // Set jumping flag to true
-
-              const jumpInterval = setInterval(() => {
-                characterY -= jumpForce; // Apply jump force
-                character.style.top = `${characterY}px`; // Update character's top position
-
-                if (characterY >= 850) {
-                  characterY = 850; // Reset Y position when landed
-                  character.style.top = `${characterY}px`;
-                  isJumping = false; // Reset jumping flag
-                  clearInterval(jumpInterval); // Stop jumping when landed
-                }
-              }, 20);
-
-              // Clear interval after a certain time to prevent indefinite jump
-              setTimeout(() => {
-                clearInterval(jumpInterval);
-                isJumping = false;
-              }, 1000);
+        // If the character has finished jumping, start descending
+        if (characterY === 850 && !isJumping) {
+          clearInterval(gravityInterval);
+          const descentInterval = setInterval(() => {
+            if (characterY < 860) {
+              characterY += gravity; // Apply gravity for descent
+              character.style.top = `${characterY}px`; // Update character's top position
+            } else {
+              clearInterval(descentInterval);
             }
+          }, 20);
+        }
+      }
+    }, 20);
 
-            // Update character's position
-            character.style.left = `${characterX}px`;
+    // Enable controls after 4 seconds
+    setTimeout(() => {
+      clearInterval(gravityInterval); // Stop gravity after 4 seconds
+      let enableControls = true; // Flag to enable controls
+
+      document.addEventListener('keydown', (event) => {
+        if (enableControls) {
+          if (event.code === 'ArrowLeft') {
+            characterX -= 5; // Move left
+          } else if (event.code === 'ArrowRight') {
+            characterX += 5; // Move right
+          } else if (event.code === 'Space' && !isJumping) {
+            isJumping = true; // Set jumping flag to true
+
+            const jumpInterval = setInterval(() => {
+              characterY -= jumpForce; // Apply jump force
+              character.style.top = `${characterY}px`; // Update character's top position
+
+              if (characterY >= 850) {
+                characterY = 850; // Reset Y position when landed
+                character.style.top = `${characterY}px`;
+                isJumping = false; // Reset jumping flag
+                clearInterval(jumpInterval); // Stop jumping when landed
+
+                // Begin character's descent after landing
+                const descentInterval = setInterval(() => {
+                  if (characterY < 860) {
+                    characterY += gravity; // Apply gravity for descent
+                    character.style.top = `${characterY}px`; // Update character's top position
+                  } else {
+                    clearInterval(descentInterval);
+                  }
+                }, 20);
+              }
+            }, 20);
           }
-        });
-      }, 1); // Wait for 4 seconds before enabling controls
-    }
+
+          // Update character's position
+          character.style.left = `${characterX}px`;
+        }
+      });
+    }, 1); // Wait for 4 seconds before enabling controls
+  }
   </script>
 </body>
 </html>
