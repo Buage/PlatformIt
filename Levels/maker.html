@@ -139,21 +139,17 @@
       });
 
 function jump() {
-  if (!isJumping) {
-    isJumping = true;
+  let jumpInterval = setInterval(() => {
+    const characterTop = parseInt(character.style.top) || 0;
 
-    let jumpInterval = setInterval(() => {
-      const characterTop = parseInt(character.style.top) || 0;
-
-      if (characterTop <= 0) {
-        isJumping = false;
-        clearInterval(jumpInterval);
-      } else {
-        characterY += jumpForce;
-        character.style.top = `${characterY}px`;
-      }
-    }, 20);
-  }
+    if (characterTop <= 0) {
+      isJumping = false;
+      clearInterval(jumpInterval);
+    } else {
+      characterY += jumpForce;
+      character.style.top = `${characterY}px`;
+    }
+  }, 20);
 }
 
   </script>
