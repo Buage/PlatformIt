@@ -122,7 +122,7 @@
           characterY = contentHeight - characterHeight; // Prevent falling through the floor
           character.style.top = `${characterY}px`;
           clearInterval(fallInterval); // Stop falling when hitting the bottom
-        }
+        }, 20);
       
       wait(4)
       document.addEventListener('keydown', (event) => {
