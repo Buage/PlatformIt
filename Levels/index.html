@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Levels</title>
+</head>
+<body>
+  <div>
+    <h1>Select a level:</h1>
+    <ul id="levelList">
+      <!-- Dynamically generate level links here -->
+    </ul>
+  </div>
+
+  <script>
+    // Example levels (you can generate actual level names dynamically)
+    const levels = ["Level1", "Level2", "Level3"];
+
+    const levelList = document.getElementById("levelList");
+
+    levels.forEach(level => {
+      const listItem = document.createElement("li");
+      const levelLink = document.createElement("a");
+      levelLink.href = `Play/${level}.html`;
+      levelLink.textContent = level;
+      listItem.appendChild(levelLink);
+      levelList.appendChild(listItem);
+    });
+  </script>
+</body>
+</html>
