@@ -143,6 +143,12 @@
                   clearInterval(jumpInterval); // Stop jumping when landed
                 }
               }, 20);
+
+              // Clear interval after a certain time to prevent indefinite jump
+              setTimeout(() => {
+                clearInterval(jumpInterval);
+                isJumping = false;
+              }, 1000);
             }
 
             // Update character's position
