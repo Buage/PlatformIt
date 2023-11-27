@@ -98,10 +98,10 @@
       }
     }
 
-  let characterY = 860; // Default Y position
-  let isJumping = false; // Flag to control jumping
-  const gravityForce = 8; // Gravity value
-  const jumpForce = -12; // Adjusted jump force
+    let characterY = 860; // Default Y position
+    let isJumping = false; // Flag to control jumping
+    const gravityForce = 8; // Gravity value
+    const jumpForce = -15; // Jump force
 
     function spawnCharacter() {
       const character = document.createElement('div');
@@ -115,19 +115,15 @@
           character.style.top = `${characterY}px`;
         }
 
-    const contentHeight = document.querySelector('.main-content').clientHeight; // Get content height
-    const characterHeight = character.clientHeight; // Get character height
+        const contentHeight = document.querySelector('.main-content').clientHeight; // Get content height
+        const characterHeight = character.clientHeight; // Get character height
 
-    // Check collision with the bottom of the content and the top (ceiling)
-    if (characterY + characterHeight >= contentHeight) {
-      characterY = contentHeight - characterHeight; // Prevent falling through the floor
-      character.style.top = `${characterY}px`;
-      isJumping = false; // Reset jump state
-    } else if (characterY <= 0) {
-      characterY = 0; // Prevent going above the ceiling
-      character.style.top = `${characterY}px`;
-    }
-  }, 20);
+        // Check collision with the bottom of the content
+        if (characterY + characterHeight >= contentHeight) {
+          characterY = contentHeight - characterHeight; // Prevent falling through the floor
+          character.style.top = `${characterY}px`;
+        }
+      }, 20);
 
       document.addEventListener('keydown', function(event) {
         if (event.code === 'ArrowRight') {
@@ -142,23 +138,20 @@
         }
       });
 
-function jump() {
-  let jumpInterval = setInterval(() => {
-    const characterTop = parseInt(character.style.top) || 0;
+      function jump() {
+        let jumpInterval = setInterval(() => {
+          const characterTop = parseInt(character.style.top) || 0;
 
-    // Set the maximum jump height limit (adjust as needed)
-    const maxJumpHeight = characterY - 100; // 100 pixels above the starting position
-
-    if (characterTop <= maxJumpHeight || characterY <= 0) {
-      isJumping = false;
-      clearInterval(jumpInterval);
-    } else {
-      characterY += jumpForce;
-      character.style.top = `${characterY}px`;
+          if (characterTop <= 0) {
+            isJumping = false;
+            clearInterval(jumpInterval);
+          } else {
+            characterY += jumpForce;
+            character.style.top = `${characterY}px`;
+          }
+        }, 20);
+      }
     }
-  }, 20);
-}
-
   </script>
 </body>
 </html>
