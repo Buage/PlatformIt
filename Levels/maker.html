@@ -16,28 +16,32 @@
       border-right: 1px solid #ccc; /* Border on the right for separation */
     }
 
-    .main-content {
-      flex: 1; /* Occupy remaining space */
-      padding: 20px;
-    }
-
-    /* Example toolbox item styles (customize as needed) */
     .toolbox-item {
       padding: 10px;
       margin-bottom: 5px;
-      background-color: #ddd;
-      border-radius: 5px;
       cursor: pointer;
+    }
+
+    /* Adjust icon styles as needed */
+    .toolbox-item img {
+      width: 32px; /* Set width of icons */
+      height: 32px; /* Set height of icons */
     }
   </style>
 </head>
 <body>
   <div class="toolbox">
-    <!-- Toolbox items -->
-    <div class="toolbox-item">Tool 1</div>
-    <div class="toolbox-item">Tool 2</div>
-    <div class="toolbox-item">Tool 3</div>
-    <!-- Add more toolbox items as needed -->
+    <!-- Tool 1: Block -->
+    <div class="toolbox-item">
+      <img src="Resources/block.png" alt="Block">
+    </div>
+
+    <!-- Tool 2: Spike -->
+    <div class="toolbox-item">
+      <img src="Resources/spike.png" alt="Spike">
+    </div>
+    
+    <!-- Add more toolbox items with icons as needed -->
   </div>
   
   <div class="main-content">
