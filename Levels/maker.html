@@ -8,7 +8,7 @@
     .character {
       position: absolute;
       left: 50px; /* Set initial X position */
-      top: 850px; /* Set initial Y position to -20 */
+      top: 860px; /* Set initial Y position to -20 */
       width: 50px;
       height: 50px;
       background-color: red;
@@ -112,7 +112,7 @@
 
       // Apply gravity immediately after spawning
       const gravityInterval = setInterval(() => {
-        if (characterY < 50) {
+        if (characterY < 860) {
           characterY += gravity; // Apply gravity
           character.style.top = `${characterY}px`; // Update character's top position
         }
