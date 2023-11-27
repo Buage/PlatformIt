@@ -15,7 +15,7 @@
       const levelId = urlParams.get('q');
 
       // Fetch the level content based on the level ID
-      fetch(`https://platformitdb.000webhostapp.com/playLevelById.php?q=${encodeURIComponent(levelId)}`)
+      fetch(`https://platformitdb.000webhostapp.com/playLevel.php?q=${encodeURIComponent(levelId)}`)
         .then(response => response.json())
         .then(levelContent => {
           // Use the retrieved level content to display or utilize it
