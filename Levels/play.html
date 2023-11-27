@@ -5,16 +5,17 @@
   <title>Play Level</title>
 </head>
 <body>
+  <h1>Playing Level</h1>
   <div id="level-content"></div>
 
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-      // Get the level name from the query parameter
+      // Get the level ID from the query parameter
       const urlParams = new URLSearchParams(window.location.search);
-      const levelName = urlParams.get('q');
+      const levelId = urlParams.get('q');
 
-      // Fetch the level content based on the level name
-      fetch(`https://platformitdb.000webhostapp.com/playLevel.php?q=${encodeURIComponent(levelName)}`)
+      // Fetch the level content based on the level ID
+      fetch(`https://platformitdb.000webhostapp.com/playLevelById.php?q=${encodeURIComponent(levelId)}`)
         .then(response => response.json())
         .then(levelContent => {
           // Use the retrieved level content to display or utilize it
