@@ -11,13 +11,63 @@
     <button id="onlineLevelsButton">Online Levels</button>
   </div>
 
+  <!-- Account Login/Register -->
+  <div style="position: fixed; bottom: 10px; left: 10px;">
+    <input type="text" id="username" placeholder="Username">
+    <input type="password" id="password" placeholder="Password">
+    <button id="loginButton">Login</button>
+    <button id="registerButton">Register</button>
+    <label for="tosCheckbox">I agree to the Terms of Service</label>
+    <input type="checkbox" id="tosCheckbox">
+  </div>
+
   <script>
     document.getElementById("playButton").addEventListener("click", function() {
       window.location.href = "Levels/index.html";
     });
-        document.getElementById("onlineLevelsButtonMaker").addEventListener("click", function() {
+
+    document.getElementById("onlineLevelsButtonMaker").addEventListener("click", function() {
       window.location.href = "Levels/maker.html";
     });
+
+    // Register button functionality
+    document.getElementById("registerButton").addEventListener("click", function() {
+      const username = document.getElementById("username").value;
+      const password = document.getElementById("password").value;
+      const tosCheckbox = document.getElementById("tosCheckbox");
+
+      if (!username || !password) {
+        alert("Please enter username and password.");
+        return;
+      }
+
+      if (!tosCheckbox.checked) {
+        alert("Please agree to the Terms of Service.");
+        return;
+      }
+
+      // Replace [REPLACE_THIS_WITH_REAL_ACC_NAME] and [REPLACE_BY_PASSWORD] with actual values
+      const registerURL = `https://platformitdb.000webhostapp.com/register.php?accountName=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`;
+
+      // Perform the registration (you might use fetch or XMLHttpRequest here)
+      // Example using fetch:
+      fetch(registerURL)
+        .then(response => {
+          if (response.ok) {
+            alert("Registration successful!");
+            // Perform any additional actions upon successful registration
+          } else {
+            throw new Error("Registration failed.");
+          }
+        })
+        .catch(error => {
+          console.error("Registration error:", error);
+          alert("Registration failed. Please try again.");
+        });
+    });
+
+    // Add login functionality if needed
+
   </script>
 </body>
 </html>
