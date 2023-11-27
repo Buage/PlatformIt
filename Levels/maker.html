@@ -134,6 +134,8 @@
           character.style.left = `${characterX - 10}px`;
         } else if (event.code === 'Space' && !isJumping) {
           isJumping = true;
+          wait(1)
+          isJumping = false;
           jump();
         }
       });
