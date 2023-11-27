@@ -89,16 +89,16 @@
         const newItem = selectedTool.cloneNode(); // Create a new item using the selected tool icon
         newItem.style.position = 'absolute'; // Set position absolute for precise placement
 
-        // Position the item 10 pixels to the left of the mouse pointer's position
-        newItem.style.left = `${event.clientX - 130}px`; // Adjusted position
-        newItem.style.top = `${event.clientY - 20}px`; // Adjusted vertical position
-        //newItem.style.top = `${event.clientY}px`; // Set vertical position based on click coordinates
+        // Position the item 130 pixels to the left and 30 pixels above the mouse pointer's position
+        newItem.style.left = `${event.clientX - 130}px`; // Adjusted horizontal position
+        newItem.style.top = `${event.clientY - 30}px`; // Adjusted vertical position
         newItem.style.width = '50px'; // Set the width of the placed object
         newItem.style.height = '50px'; // Set the height of the placed object
 
         document.querySelector('.main-content').appendChild(newItem); // Append the new item to the main content
       }
     }
+
     function spawnCharacter() {
       const character = document.createElement('div');
       character.classList.add('character'); // Add character class for styling
@@ -110,39 +110,34 @@
       const gravity = 8; // Gravity value
       const jumpForce = 10; // Jump force value
 
-      // Enable controls after 4 seconds
-      setTimeout(() => {
-        let enableControls = true; // Flag to enable controls
+      wait(4)
+      
+      document.addEventListener('keydown', (event) => {
+        if (event.code === 'ArrowLeft') {
+          characterX -= 5; // Move left
+        } else if (event.code === 'ArrowRight') {
+          characterX += 5; // Move right
+        } else if (event.code === 'Space' && !isJumping) {
+          isJumping = true; // Set jumping flag to true
+          let jumpStep = 0;
 
-        document.addEventListener('keydown', (event) => {
-          if (enableControls) {
-            if (event.code === 'ArrowLeft') {
-              characterX -= 5; // Move left
-            } else if (event.code === 'ArrowRight') {
-              characterX += 5; // Move right
-            } else if (event.code === 'Space' && !isJumping) {
-              isJumping = true; // Set jumping flag to true
-              let jumpStep = 0;
+          const jumpInterval = setInterval(() => {
+            jumpStep += jumpForce - gravity; // Calculate jump force
+            characterY -= jumpStep; // Apply jump force
+            character.style.top = `${characterY}px`; // Update character's top position
 
-              const jumpInterval = setInterval(() => {
-                jumpStep += jumpForce - gravity; // Calculate jump force
-                characterY -= jumpStep; // Apply jump force
-                character.style.top = `${characterY}px`; // Update character's top position
-
-                if (characterY >= 50) {
-                  characterY = 50; // Reset Y position when landed
-                  character.style.top = `${characterY}px`;
-                  isJumping = false; // Reset jumping flag
-                  clearInterval(jumpInterval); // Stop jumping when landed
-                }
-              }, 20);
+            if (characterY >= 50) {
+              characterY = 50; // Reset Y position when landed
+              character.style.top = `${characterY}px`;
+              isJumping = false; // Reset jumping flag
+              clearInterval(jumpInterval); // Stop jumping when landed
             }
+          }, 20);
+        }
 
-            // Update character's position
-            character.style.left = `${characterX}px`;
-          }
-        });
-      }, 4000); // Wait for 4 seconds before enabling controls
+        // Update character's position
+        character.style.left = `${characterX}px`;
+      });
     }
   </script>
 </body>
