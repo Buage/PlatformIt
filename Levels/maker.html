@@ -100,7 +100,9 @@
     }
 
   function spawnCharacter() {
-    // ... (Previous character spawn logic remains unchanged) ...
+          const character = document.createElement('div');
+      character.classList.add('character'); // Add character class for styling
+      document.querySelector('.main-content').appendChild(character);
 
     let characterY = 850; // Initial Y position
     let characterX = 50; // Initial X position
