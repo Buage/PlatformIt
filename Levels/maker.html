@@ -8,7 +8,7 @@
     .character {
       position: absolute;
       left: 50px; /* Set initial X position */
-      top: 1000px; /* Set initial Y position to -20 */
+      top: 900px; /* Set initial Y position to -20 */
       width: 50px;
       height: 50px;
       background-color: red;
@@ -108,7 +108,7 @@
       let characterX = 50; // Initial X position
       let isJumping = false; // Flag to control jumping
       const gravity = 8; // Gravity value
-      const jumpForce = 1; // Jump force value
+      const jumpForce = 0.1; // Jump force value
 
       // Apply gravity immediately after spawning
       const gravityInterval = setInterval(() => {
@@ -151,7 +151,7 @@
             character.style.left = `${characterX}px`;
           }
         });
-      }, 4000); // Wait for 4 seconds before enabling controls
+      }, 1); // Wait for 4 seconds before enabling controls
     }
   </script>
 </body>
