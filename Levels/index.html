@@ -8,24 +8,32 @@
   <div>
     <h1>Select a level:</h1>
     <ul id="levelList">
-      <!-- Dynamically generate level links here -->
+      <!-- Levels will be dynamically added here -->
     </ul>
   </div>
 
   <script>
-    // Example levels (you can generate actual level names dynamically)
-    const levels = ["Level1", "Level2", "Level3"];
+    // Fetch levels from the server
+    fetch('https://platformit-db.zshreal.repl.co/index.php?qmethod=GetGameLevels')
+      .then(response => response.json())
+      .then(data => {
+        // Assuming the levels are returned as an array of objects with 'name' property
+        const levels = data.levels; // Replace 'levels' with the appropriate property name
 
-    const levelList = document.getElementById("levelList");
+        const levelList = document.getElementById("levelList");
 
-    levels.forEach(level => {
-      const listItem = document.createElement("li");
-      const levelLink = document.createElement("a");
-      levelLink.href = `Play/${level}.html`;
-      levelLink.textContent = level;
-      listItem.appendChild(levelLink);
-      levelList.appendChild(listItem);
-    });
+        levels.forEach(level => {
+          const listItem = document.createElement("li");
+          const levelLink = document.createElement("a");
+          levelLink.href = `Play/${level.name}.html`; // Assuming level names are used for href
+          levelLink.textContent = level.name; // Replace 'name' with the appropriate property name
+          listItem.appendChild(levelLink);
+          levelList.appendChild(listItem);
+        });
+      })
+      .catch(error => {
+        console.error('Error fetching levels:', error);
+      });
   </script>
 </body>
 </html>
