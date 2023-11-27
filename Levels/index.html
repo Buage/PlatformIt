@@ -2,72 +2,27 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Levels</title>
-  <style>
-    .level-card {
-      border: 1px solid #ccc;
-      padding: 20px;
-      margin: 10px;
-      width: 300px;
-      height: 350px;
-      display: none;
-    }
-    .active {
-      display: block;
-    }
-    .level-image {
-      max-width: 100%;
-      height: auto;
-    }
-  </style>
+  <title>Level Selection</title>
 </head>
 <body>
-  <div class="level-container"></div>
+  <h1>Select a Level</h1>
+  <ul id="level-list"></ul>
 
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-      const levelContainer = document.querySelector('.level-container');
+      const levelList = document.getElementById('level-list');
 
+      // Fetch levels from the server
       fetch('https://platformitdb.000webhostapp.com/')
         .then(response => response.json())
         .then(data => {
-          Object.keys(data).forEach((levelName, index) => {
-            const level = data[levelName];
-
-            const levelCard = document.createElement('div');
-            levelCard.classList.add('level-card');
-            if (index === 0) {
-              levelCard.classList.add('active');
-            }
-
-            const levelTitle = document.createElement('h2');
-            levelTitle.textContent = level.name;
-
-            const levelDescription = document.createElement('p');
-            levelDescription.textContent = `Author: ${level.author}\nDownloads: ${level.downloads}\nDifficulty: ${level.difficulty}`;
-
-            // Play button for each level
-            const playButton = document.createElement('button');
-            playButton.textContent = 'Play';
-            playButton.addEventListener('click', function() {
-              // Make request to platformitdb.000webhostapp.com/playLevel.php with level name
-              fetch(`https://platformitdb.000webhostapp.com/playLevel.php?q=${encodeURIComponent(level.name)}`)
-                .then(response => response.json())
-                .then(levelContent => {
-                  // Display or utilize level content as needed
-                  console.log('Level Content:', levelContent);
-                  // Perform actions with the received level content
-                })
-                .catch(error => {
-                  console.error('Error fetching level content:', error);
-                });
-            });
-
-            levelCard.appendChild(levelTitle);
-            levelCard.appendChild(levelDescription);
-            levelCard.appendChild(playButton);
-
-            levelContainer.appendChild(levelCard);
+          Object.keys(data).forEach(levelName => {
+            const listItem = document.createElement('li');
+            const link = document.createElement('a');
+            link.textContent = levelName;
+            link.href = `play.html?q=${encodeURIComponent(levelName)}`;
+            listItem.appendChild(link);
+            levelList.appendChild(listItem);
           });
         })
         .catch(error => {
