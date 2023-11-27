@@ -20,24 +20,28 @@
       padding: 10px;
       margin-bottom: 5px;
       cursor: pointer;
+      transition: transform 0.2s; /* Smooth transition for scaling */
     }
 
-    /* Adjust icon styles as needed */
     .toolbox-item img {
       width: 32px; /* Set width of icons */
       height: 32px; /* Set height of icons */
+    }
+
+    .toolbox-item.selected {
+      transform: scale(1.2); /* Scale up the selected icon */
     }
   </style>
 </head>
 <body>
   <div class="toolbox">
     <!-- Tool 1: Block -->
-    <div class="toolbox-item">
+    <div class="toolbox-item" onclick="selectTool(this)">
       <img src="Resources/block.png" alt="Block">
     </div>
 
     <!-- Tool 2: Spike -->
-    <div class="toolbox-item">
+    <div class="toolbox-item" onclick="selectTool(this)">
       <img src="Resources/spike.png" alt="Spike">
     </div>
     
@@ -48,5 +52,16 @@
     <!-- Main content area (grid or other content) -->
     <!-- Your level maker content goes here -->
   </div>
+
+  <script>
+    function selectTool(tool) {
+      // Remove 'selected' class from all toolbox items
+      const toolboxItems = document.querySelectorAll('.toolbox-item');
+      toolboxItems.forEach(item => item.classList.remove('selected'));
+
+      // Add 'selected' class to the clicked toolbox item
+      tool.classList.add('selected');
+    }
+  </script>
 </body>
 </html>
