@@ -142,20 +142,23 @@
         }
       });
 
-      function jump() {
-        let jumpInterval = setInterval(() => {
-          const characterTop = parseInt(character.style.top) || 0;
+function jump() {
+  let jumpInterval = setInterval(() => {
+    const characterTop = parseInt(character.style.top) || 0;
 
-          if (characterTop <= 0) {
-            isJumping = false;
-            clearInterval(jumpInterval);
-          } else {
-            characterY += jumpForce;
-            character.style.top = `${characterY}px`;
-          }
-        }, 20);
-      }
+    // Set the maximum jump height limit (adjust as needed)
+    const maxJumpHeight = characterY - 100; // 100 pixels above the starting position
+
+    if (characterTop <= maxJumpHeight || characterY <= 0) {
+      isJumping = false;
+      clearInterval(jumpInterval);
+    } else {
+      characterY += jumpForce;
+      character.style.top = `${characterY}px`;
     }
+  }, 20);
+}
+
   </script>
 </body>
 </html>
