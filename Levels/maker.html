@@ -100,9 +100,7 @@
     }
 
   function spawnCharacter() {
-          const character = document.createElement('div');
-      character.classList.add('character'); // Add character class for styling
-      document.querySelector('.main-content').appendChild(character);
+    // ... (Previous character spawn logic remains unchanged) ...
 
     let characterY = 850; // Initial Y position
     let characterX = 50; // Initial X position
@@ -152,8 +150,7 @@
               if (characterY >= 850) {
                 characterY = 850; // Reset Y position when landed
                 character.style.top = `${characterY}px`;
-                isJumping = false; // Reset jumping flag
-                clearInterval(jumpInterval); // Stop jumping when landed
+                clearInterval(jumpInterval); // Stop jumping after landing
 
                 // Begin character's descent after landing
                 const descentInterval = setInterval(() => {
@@ -164,6 +161,11 @@
                     clearInterval(descentInterval);
                   }
                 }, 20);
+
+                // Reset jumping flag after 1 second
+                setTimeout(() => {
+                  isJumping = false;
+                }, 1000);
               }
             }, 20);
           }
