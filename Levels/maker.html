@@ -111,22 +111,17 @@
       character.classList.add('character'); // Add character class for styling
       document.querySelector('.main-content').appendChild(character);
 
-      setInterval(() => {
-        // Apply gravity to Y position
-        if (!isJumping) {
-          characterY += gravityForce;
-          character.style.top = `${characterY}px`;
-        }
+    setInterval(() => {
+      // Check collisions with the ground
+      const contentHeight = document.querySelector('.main-content').clientHeight;
+      const characterHeight = character.clientHeight;
 
-        const contentHeight = document.querySelector('.main-content').clientHeight; // Get content height
-        const characterHeight = character.clientHeight; // Get character height
-
-        // Check collision with the bottom of the content
-        if (characterY + characterHeight >= contentHeight) {
-          characterY = contentHeight - characterHeight; // Prevent falling through the floor
-          character.style.top = `${characterY}px`;
-        }
-      }, 20);
+      if (characterY + characterHeight >= contentHeight) {
+        characterY = contentHeight - characterHeight; // Adjust character position
+        character.style.top = `${characterY}px`;
+        isCharacterOnGround = true; // Character is on the ground
+      }
+    }, 20);
 
     document.addEventListener('keydown', function(event) {
       if (event.code === 'ArrowRight') {
@@ -139,11 +134,11 @@
     });
 
     function jump() {
+      isCharacterOnGround = false; // Character is jumping
       let jumpInterval = setInterval(() => {
         const characterTop = parseInt(character.style.top) || 0;
 
         if (characterTop <= 0) {
-          isCharacterOnGround = false; // Character is in the air
           clearInterval(jumpInterval);
         } else {
           characterY += jumpForce;
