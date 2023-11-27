@@ -98,16 +98,16 @@
       }
     }
 
-    let characterY = 860; // Default Y position
-    let isJumping = false; // Flag to control jumping
-    const gravityForce = 8; // Gravity value
-    const jumpForce = -15; // Jump force
-
     function spawnCharacter() {
       const character = document.createElement('div');
       character.classList.add('character'); // Add character class for styling
       document.querySelector('.main-content').appendChild(character);
 
+        let characterY = 860; // Default Y position
+        let isJumping = false; // Flag to control jumping
+        const gravityForce = 8; // Gravity value
+        const jumpForce = -15; // Jump force
+      
       setInterval(() => {
         // Apply gravity to Y position
         if (!isJumping) {
