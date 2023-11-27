@@ -2,38 +2,39 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Level Maker</title>
+  <title>Grid Drawing</title>
   <style>
-    body, html {
-      height: 100%;
+    body {
       margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #f0f0f0;
     }
 
     .grid-container {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); /* Automatically fill columns */
-      grid-auto-rows: 100px; /* Adjust the height of grid items */
-      grid-gap: 10px; /* Adjust the gap between grid items */
-      height: 100%; /* Take full height of the viewport */
-      width: 100%; /* Take full width of the viewport */
-      padding: 20px; /* Optional padding for container */
+      grid-template-columns: repeat(10, 30px); /* Number of columns and cell width */
+      grid-template-rows: repeat(10, 30px); /* Number of rows and cell height */
+      grid-gap: 1px; /* Gap between cells (to simulate grid lines) */
+      border: 1px solid #000; /* Border around the entire grid */
     }
 
     .grid-item {
-      background-color: #ccc; /* Set a background color for grid items */
-      border: 1px solid #000; /* Add border for grid items */
+      background-color: #ccc; /* Cell background color */
     }
   </style>
 </head>
 <body>
-  <h1>Level Maker</h1>
-
   <div class="grid-container">
-    <!-- Example grid items -->
-    <div class="grid-item"></div>
-    <div class="grid-item"></div>
-    <div class="grid-item"></div>
-    <!-- Add more grid items as needed -->
+    <!-- Create grid items dynamically -->
+    <!-- In this example, a 10x10 grid is created -->
+    <?php
+      for ($i = 0; $i < 100; $i++) {
+        echo '<div class="grid-item"></div>';
+      }
+    ?>
   </div>
 </body>
 </html>
