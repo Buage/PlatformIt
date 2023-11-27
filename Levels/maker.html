@@ -78,6 +78,8 @@
         newItem.style.position = 'absolute'; // Set position absolute for precise placement
         newItem.style.left = `${event.clientX}px`; // Set horizontal position based on click coordinates
         newItem.style.top = `${event.clientY}px`; // Set vertical position based on click coordinates
+        newItem.style.width = '100px'; // Set the width of the placed object
+        newItem.style.height = '100px'; // Set the height of the placed object
 
         document.querySelector('.main-content').appendChild(newItem); // Append the new item to the main content
       }
