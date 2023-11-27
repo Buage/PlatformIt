@@ -29,9 +29,13 @@
       const levelContainer = document.querySelector('.level-container');
 
       fetch('https://platformitdb.000webhostapp.com/')
-        .then(response => response.json())
+        .then(response => response.text())
         .then(data => {
-          data.forEach((level, index) => {
+          const rows = data.split('\n').slice(1); // Split data into rows, excluding the header
+
+          rows.forEach((row, index) => {
+            const [name, author, content, downloads, id] = row.split('\t');
+
             const levelCard = document.createElement('div');
             levelCard.classList.add('level-card');
             if (index === 0) {
@@ -39,14 +43,15 @@
             }
 
             const levelTitle = document.createElement('h2');
-            levelTitle.textContent = level.name;
+            levelTitle.textContent = name;
 
             const levelDescription = document.createElement('p');
-            levelDescription.textContent = level.description;
+            levelDescription.textContent = `Author: ${author}\nDownloads: ${downloads}`;
 
+            // Placeholder image for demonstration purposes
             const levelImage = document.createElement('img');
-            levelImage.src = level.image;
-            levelImage.alt = level.name;
+            levelImage.src = 'https://via.placeholder.com/300'; // Replace with your image URL
+            levelImage.alt = name;
             levelImage.classList.add('level-image');
 
             levelCard.appendChild(levelTitle);
