@@ -2,39 +2,47 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Grid Drawing</title>
+  <title>Level Maker with Toolbox</title>
   <style>
     body {
       margin: 0;
       display: flex;
-      justify-content: center;
-      align-items: center;
       height: 100vh;
-      background-color: #f0f0f0;
     }
 
-    .grid-container {
-      display: grid;
-      grid-template-columns: repeat(10, 30px); /* Number of columns and cell width */
-      grid-template-rows: repeat(10, 30px); /* Number of rows and cell height */
-      grid-gap: 1px; /* Gap between cells (to simulate grid lines) */
-      border: 1px solid #000; /* Border around the entire grid */
+    .toolbox {
+      width: 100px; /* Set width for the toolbox */
+      background-color: #f0f0f0; /* Toolbox background color */
+      border-right: 1px solid #ccc; /* Border on the right for separation */
     }
 
-    .grid-item {
-      background-color: #ccc; /* Cell background color */
+    .main-content {
+      flex: 1; /* Occupy remaining space */
+      padding: 20px;
+    }
+
+    /* Example toolbox item styles (customize as needed) */
+    .toolbox-item {
+      padding: 10px;
+      margin-bottom: 5px;
+      background-color: #ddd;
+      border-radius: 5px;
+      cursor: pointer;
     }
   </style>
 </head>
 <body>
-  <div class="grid-container">
-    <!-- Create grid items dynamically -->
-    <!-- In this example, a 10x10 grid is created -->
-    <?php
-      for ($i = 0; $i < 100; $i++) {
-        echo '<div class="grid-item"></div>';
-      }
-    ?>
+  <div class="toolbox">
+    <!-- Toolbox items -->
+    <div class="toolbox-item">Tool 1</div>
+    <div class="toolbox-item">Tool 2</div>
+    <div class="toolbox-item">Tool 3</div>
+    <!-- Add more toolbox items as needed -->
+  </div>
+  
+  <div class="main-content">
+    <!-- Main content area (grid or other content) -->
+    <!-- Your level maker content goes here -->
   </div>
 </body>
 </html>
