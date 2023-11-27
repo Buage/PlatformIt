@@ -132,22 +132,21 @@
         } else if (event.code === 'ArrowLeft') {
           const characterX = parseInt(character.style.left) || 0;
           character.style.left = `${characterX - 10}px`;
-        } else if (event.code === 'Space' && !isJumping && characterY + character.clientHeight >= 0) {
+        } else if (event.code === 'Space' && !isJumping) {
           isJumping = true;
-          jump();
+          jump(character);
         }
       });
 
-      function jump() {
+      function jump(char) {
         let jumpInterval = setInterval(() => {
-          const characterTop = parseInt(character.style.top) || 0;
+          const characterTop = parseInt(char.style.top) || 0;
 
-          if (characterTop >= characterY) {
-            isJumping = false;
+          if (characterTop <= characterY - 200) {
             clearInterval(jumpInterval);
           } else {
             characterY += jumpForce;
-            character.style.top = `${characterY}px`;
+            char.style.top = `${characterY}px`;
           }
         }, 20);
       }
