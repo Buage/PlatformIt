@@ -7,13 +7,16 @@
 <body>
   <div>
     <button id="playButton">Play</button>
-    <a href="https://platform-it.vercel.app/Levels/maker.html">Level Maker</a>
+    <button id="onlineLevelsButtonMaker">Level Maker</button>
     <button id="onlineLevelsButton">Online Levels</button>
   </div>
 
   <script>
     document.getElementById("playButton").addEventListener("click", function() {
       window.location.href = "Levels/index.html";
+    });
+        document.getElementById("onlineLevelsButtonMaker").addEventListener("click", function() {
+      window.location.href = "Levels/maker.html";
     });
   </script>
 </body>
