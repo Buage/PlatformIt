@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Play Level</title>
+</head>
+<body>
+  <div id="level-content"></div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Get the level name from the query parameter
+      const urlParams = new URLSearchParams(window.location.search);
+      const levelName = urlParams.get('q');
+
+      // Fetch the level content based on the level name
+      fetch(`https://platformitdb.000webhostapp.com/playLevel.php?q=${encodeURIComponent(levelName)}`)
+        .then(response => response.json())
+        .then(levelContent => {
+          // Use the retrieved level content to display or utilize it
+          const levelContentDiv = document.getElementById('level-content');
+          levelContentDiv.textContent = JSON.stringify(levelContent);
+          // Modify this part to handle and display the level content as needed
+        })
+        .catch(error => {
+          console.error('Error fetching level content:', error);
+        });
+    });
+  </script>
+</body>
+</html>
