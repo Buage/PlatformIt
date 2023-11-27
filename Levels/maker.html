@@ -105,37 +105,22 @@
       document.querySelector('.main-content').appendChild(character);
 
       let characterY = 50; // Initial Y position
-      let characterX = 50; // Initial X position
-      let isJumping = false; // Flag to control jumping
       const gravity = 8; // Gravity value
-      const jumpForce = 10; // Jump force value
 
-      document.addEventListener('keydown', (event) => {
-        if (event.code === 'ArrowLeft') {
-          characterX -= 5; // Move left
-        } else if (event.code === 'ArrowRight') {
-          characterX += 5; // Move right
-        } else if (event.code === 'Space' && !isJumping) {
-          isJumping = true; // Set jumping flag to true
-          let jumpStep = 0;
+      const fallInterval = setInterval(() => {
+        characterY += gravity; // Apply gravity to Y position
+        character.style.top = `${characterY}px`; // Update character's top position
 
-          const jumpInterval = setInterval(() => {
-            jumpStep += jumpForce - gravity; // Calculate jump force
-            characterY -= jumpStep; // Apply jump force
-            character.style.top = `${characterY}px`; // Update character's top position
+        const contentHeight = document.querySelector('.main-content').clientHeight; // Get content height
+        const characterHeight = character.clientHeight; // Get character height
 
-            if (characterY >= 50) {
-              characterY = 50; // Reset Y position when landed
-              character.style.top = `${characterY}px`;
-              isJumping = false; // Reset jumping flag
-              clearInterval(jumpInterval); // Stop jumping when landed
-            }
-          }, 20);
+        // Check collision with the bottom of the content
+        if (characterY + characterHeight >= contentHeight) {
+          characterY = contentHeight - characterHeight; // Prevent falling through the floor
+          character.style.top = `${characterY}px`;
+          clearInterval(fallInterval); // Stop falling when hitting the bottom
         }
-
-        // Update character's position
-        character.style.left = `${characterX}px`;
-      });
+      }, 20);
     }
   </script>
 </body>
