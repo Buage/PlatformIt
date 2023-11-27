@@ -100,16 +100,18 @@
       }
     }
     function spawnCharacter() {
-      setTimeout(() => {
-        const character = document.createElement('div');
-        character.classList.add('character'); // Add character class for styling
-        document.querySelector('.main-content').appendChild(character);
+      const character = document.createElement('div');
+      character.classList.add('character'); // Add character class for styling
+      document.querySelector('.main-content').appendChild(character);
 
-        let characterY = 50; // Initial Y position
-        let characterX = 50; // Initial X position
-        let isJumping = false; // Flag to control jumping
-        const gravity = 0.5; // Gravity value
-        const jumpForce = 10; // Jump force value
+      let characterY = 50; // Initial Y position
+      let characterX = 50; // Initial X position
+      let isJumping = false; // Flag to control jumping
+      const gravity = 8; // Gravity value
+      const jumpForce = 10; // Jump force value
+
+      // Enable controls after 4 seconds
+      setTimeout(() => {
         let enableControls = true; // Flag to enable controls
 
         document.addEventListener('keydown', (event) => {
