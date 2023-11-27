@@ -110,8 +110,17 @@
       const gravity = 0.5; // Gravity value
       const jumpForce = 10; // Jump force value
 
+      // Apply gravity immediately after spawning
+      const gravityInterval = setInterval(() => {
+        if (characterY < 50) {
+          characterY += gravity; // Apply gravity
+          character.style.top = `${characterY}px`; // Update character's top position
+        }
+      }, 20);
+
       // Enable controls after 4 seconds
       setTimeout(() => {
+        clearInterval(gravityInterval); // Stop gravity after 4 seconds
         let enableControls = true; // Flag to enable controls
 
         document.addEventListener('keydown', (event) => {
