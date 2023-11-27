@@ -98,10 +98,10 @@
       }
     }
 
-    let characterY = 860; // Default Y position
-    let isJumping = false; // Flag to control jumping
-    const gravityForce = 8; // Gravity value
-    const jumpForce = -15; // Jump force
+  let characterY = 860; // Default Y position
+  let isJumping = false; // Flag to control jumping
+  const gravityForce = 8; // Gravity value
+  const jumpForce = -12; // Adjusted jump force
 
     function spawnCharacter() {
       const character = document.createElement('div');
@@ -138,23 +138,20 @@
         }
       });
 
-function jump() {
-  let jumpInterval = setInterval(() => {
-    const characterTop = parseInt(character.style.top) || 0;
+      function jump() {
+        let jumpInterval = setInterval(() => {
+          const characterTop = parseInt(character.style.top) || 0;
 
-    if (characterTop <= 0) {
-      isJumping = false;
-      clearInterval(jumpInterval);
-    } else if (characterTop <= contentHeight - characterHeight) {
-      characterY += jumpForce;
-      character.style.top = `${characterY}px`;
-    } else {
-      isJumping = false;
-      clearInterval(jumpInterval);
+          if (characterTop <= 0) {
+            isJumping = false;
+            clearInterval(jumpInterval);
+          } else {
+            characterY += jumpForce;
+            character.style.top = `${characterY}px`;
+          }
+        }, 20);
+      }
     }
-  }, 20);
-}
-
   </script>
 </body>
 </html>
