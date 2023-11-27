@@ -50,24 +50,16 @@
             const playButton = document.createElement('button');
             playButton.textContent = 'Play';
             playButton.addEventListener('click', function() {
-              // Make request to platformitdb.000webhostapp.com/playLevel.php
+              // Make request to platformitdb.000webhostapp.com/playLevel.php with level name
               fetch(`https://platformitdb.000webhostapp.com/playLevel.php?q=${encodeURIComponent(level.name)}`)
                 .then(response => response.json())
-                .then(levelData => {
-                  // Make request to zshadowskilled.direct.quickconnect.to:503/playLevel.php
-                  fetch(`http://zshadowskilled.direct.quickconnect.to:503/playLevel.php?q=${encodeURIComponent(level.name)}`)
-                    .then(response => response.json())
-                    .then(levelContent => {
-                      // Display level content
-                      alert(`Content: ${levelContent.content}`);
-                      // Here, you can modify the display or content as needed
-                    })
-                    .catch(error => {
-                      console.error('Error fetching level content from external server:', error);
-                    });
+                .then(levelContent => {
+                  // Display or utilize level content as needed
+                  console.log('Level Content:', levelContent);
+                  // Perform actions with the received level content
                 })
                 .catch(error => {
-                  console.error('Error fetching level data from platformitdb:', error);
+                  console.error('Error fetching level content:', error);
                 });
             });
 
@@ -77,33 +69,10 @@
 
             levelContainer.appendChild(levelCard);
           });
-
-          document.addEventListener('keydown', function(event) {
-            const levels = document.querySelectorAll('.level-card');
-            let currentLevel = [...levels].findIndex(level => level.classList.contains('active'));
-
-            if (event.key === 'ArrowRight') {
-              currentLevel = (currentLevel + 1) % levels.length;
-              showLevel(levels, currentLevel);
-            } else if (event.key === 'ArrowLeft') {
-              currentLevel = (currentLevel - 1 + levels.length) % levels.length;
-              showLevel(levels, currentLevel);
-            }
-          });
         })
         .catch(error => {
           console.error('Error fetching levels:', error);
         });
-
-      function showLevel(levels, index) {
-        levels.forEach((level, idx) => {
-          if (idx === index) {
-            level.classList.add('active');
-          } else {
-            level.classList.remove('active');
-          }
-        });
-      }
     });
   </script>
 </body>
