@@ -10,16 +10,6 @@
       height: 100vh;
     }
 
-    .character {
-      position: absolute;
-      left: 50px; /* Set initial X position */
-      top: 860px; /* Set initial Y position */
-      width: 50px;
-      height: 50px;
-      background-color: red;
-      border-radius: 10px; /* Rounded corners */
-    }
-
     .toolbox {
       width: 100px; /* Set width for the toolbox */
       background-color: #f0f0f0; /* Toolbox background color */
@@ -47,6 +37,16 @@
       position: relative; /* Position relative for absolute positioning of new items */
       background-color: #fff; /* Example background color */
     }
+
+    .character {
+      position: absolute;
+      left: 50px; /* Set initial X position */
+      top: 860px; /* Set initial Y position */
+      width: 50px;
+      height: 50px;
+      background-color: red;
+      border-radius: 10px; /* Rounded corners */
+    }
   </style>
 </head>
 <body>
@@ -60,14 +60,29 @@
     <div class="toolbox-item" onclick="selectTool(this)">
       <img src="Resources/spike.png" alt="Spike">
     </div>
+    
+    <!-- Add more toolbox items with icons as needed -->
   </div>
   
   <div class="main-content" onclick="placeSelectedItem(event)">
-    <!-- Main content area (grid or other content) -->
+    <!-- Main content area -->
+    <!-- Your level maker content goes here -->
     <button onclick="spawnCharacter()">Test</button> <!-- Test button -->
   </div>
 
   <script>
+    let selectedTool = null;
+
+    function selectTool(tool) {
+      // Remove 'selected' class from all toolbox items
+      const toolboxItems = document.querySelectorAll('.toolbox-item');
+      toolboxItems.forEach(item => item.classList.remove('selected'));
+
+      // Add 'selected' class to the clicked toolbox item
+      tool.classList.add('selected');
+      selectedTool = tool.querySelector('img').cloneNode(); // Keep a reference to the selected tool icon
+    }
+
     function placeSelectedItem(event) {
       if (selectedTool) {
         const newItem = selectedTool.cloneNode(); // Create a new item using the selected tool icon
@@ -83,59 +98,59 @@
       }
     }
 
+    let characterY = 860; // Default Y position
+    let isJumping = false; // Flag to control jumping
+    const gravityForce = 8; // Gravity value
+    const jumpForce = -15; // Jump force
+
     function spawnCharacter() {
       const character = document.createElement('div');
       character.classList.add('character'); // Add character class for styling
       document.querySelector('.main-content').appendChild(character);
 
-      let characterY = 860; // Initial Y position set to 860
-      let characterX = 50; // Initial X position
-      let isJumping = false; // Flag to control jumping
-      const gravity = 8; // Gravity force value
-      const jumpForce = 10; // Jump force value
+      setInterval(() => {
+        // Apply gravity to Y position
+        if (!isJumping) {
+          characterY += gravityForce;
+          character.style.top = `${characterY}px`;
+        }
 
-      // Apply gravity
-      const gravityInterval = setInterval(() => {
-        if (characterY < 860) {
-          characterY += gravity; // Apply gravity
-          character.style.top = `${characterY}px`; // Update character's top position
+        const contentHeight = document.querySelector('.main-content').clientHeight; // Get content height
+        const characterHeight = character.clientHeight; // Get character height
+
+        // Check collision with the bottom of the content
+        if (characterY + characterHeight >= contentHeight) {
+          characterY = contentHeight - characterHeight; // Prevent falling through the floor
+          character.style.top = `${characterY}px`;
         }
       }, 20);
 
-      // Enable controls after 4 seconds
-      setTimeout(() => {
-        clearInterval(gravityInterval); // Stop gravity after 4 seconds
-        let enableControls = true; // Flag to enable controls
+      document.addEventListener('keydown', function(event) {
+        if (event.code === 'ArrowRight') {
+          const characterX = parseInt(character.style.left) || 0;
+          character.style.left = `${characterX + 10}px`;
+        } else if (event.code === 'ArrowLeft') {
+          const characterX = parseInt(character.style.left) || 0;
+          character.style.left = `${characterX - 10}px`;
+        } else if (event.code === 'Space' && !isJumping) {
+          isJumping = true;
+          jump();
+        }
+      });
 
-        document.addEventListener('keydown', (event) => {
-          if (enableControls) {
-            if (event.code === 'ArrowLeft') {
-              characterX -= 5; // Move left
-            } else if (event.code === 'ArrowRight') {
-              characterX += 5; // Move right
-            } else if (event.code === 'Space' && !isJumping) {
-              isJumping = true; // Set jumping flag to true
-              let jumpStep = 0;
+      function jump() {
+        let jumpInterval = setInterval(() => {
+          const characterTop = parseInt(character.style.top) || 0;
 
-              const jumpInterval = setInterval(() => {
-                jumpStep += jumpForce - gravity; // Calculate jump force
-                characterY -= jumpStep; // Apply jump force
-                character.style.top = `${characterY}px`; // Update character's top position
-
-                if (characterY >= 860) {
-                  characterY = 860; // Reset Y position when landed
-                  character.style.top = `${characterY}px`;
-                  isJumping = false; // Reset jumping flag
-                  clearInterval(jumpInterval); // Stop jumping when landed
-                }
-              }, 20);
-            }
-
-            // Update character's position
-            character.style.left = `${characterX}px`;
+          if (characterTop <= 0) {
+            isJumping = false;
+            clearInterval(jumpInterval);
+          } else {
+            characterY += jumpForce;
+            character.style.top = `${characterY}px`;
           }
-        });
-      }, 1); // Wait for 4 seconds before enabling controls
+        }, 20);
+      }
     }
   </script>
 </body>
