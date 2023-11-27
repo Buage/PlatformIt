@@ -50,7 +50,25 @@
             const playButton = document.createElement('button');
             playButton.textContent = 'Play';
             playButton.addEventListener('click', function() {
-              window.location.href = `Levels/Play/${level.name}.html`;
+              // Make request to platformitdb.000webhostapp.com/playLevel.php
+              fetch(`https://platformitdb.000webhostapp.com/playLevel.php?q=${encodeURIComponent(level.name)}`)
+                .then(response => response.json())
+                .then(levelData => {
+                  // Make request to zshadowskilled.direct.quickconnect.to:503/playLevel.php
+                  fetch(`http://zshadowskilled.direct.quickconnect.to:503/playLevel.php?q=${encodeURIComponent(level.name)}`)
+                    .then(response => response.json())
+                    .then(levelContent => {
+                      // Display level content
+                      alert(`Content: ${levelContent.content}`);
+                      // Here, you can modify the display or content as needed
+                    })
+                    .catch(error => {
+                      console.error('Error fetching level content from external server:', error);
+                    });
+                })
+                .catch(error => {
+                  console.error('Error fetching level data from platformitdb:', error);
+                });
             });
 
             levelCard.appendChild(levelTitle);
