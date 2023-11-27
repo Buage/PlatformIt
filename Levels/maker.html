@@ -101,8 +101,7 @@
     let characterY = 860; // Default Y position
     let isJumping = false; // Flag to control jumping
     const gravityForce = 8; // Gravity value
-    const jumpForce = -10; // Lower jump force
-    const maxJumpHeight = 300; // Maximum jump height
+    const jumpForce = -15; // Jump force
 
     function spawnCharacter() {
       const character = document.createElement('div');
@@ -135,23 +134,22 @@
           character.style.left = `${characterX - 10}px`;
         } else if (event.code === 'Space' && !isJumping) {
           isJumping = true;
-          jump(character);
+          jump();
         }
       });
 
-      function jump(char) {
-        let jumpInterval = setInterval(() => {
-          const characterTop = parseInt(char.style.top) || 0;
+    function jump() {
+      let jumpInterval = setInterval(() => {
+        const characterTop = parseInt(character.style.top) || 0;
 
-          if (characterTop <= characterY - maxJumpHeight) {
-            isJumping = false;
-            clearInterval(jumpInterval);
-          } else {
-            characterY += jumpForce;
-            char.style.top = `${characterY}px`;
-          }
-        }, 20);
-      }
+        if (characterTop <= 0) {
+          isJumping = false;
+          clearInterval(jumpInterval);
+        } else {
+          characterY -= 10; // Move character upwards by reducing its Y position
+          character.style.top = `${characterY}px`;
+        }
+      }, 20);
     }
   </script>
 </body>
