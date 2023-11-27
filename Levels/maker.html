@@ -115,15 +115,19 @@
           character.style.top = `${characterY}px`;
         }
 
-        const contentHeight = document.querySelector('.main-content').clientHeight; // Get content height
-        const characterHeight = character.clientHeight; // Get character height
+    const contentHeight = document.querySelector('.main-content').clientHeight; // Get content height
+    const characterHeight = character.clientHeight; // Get character height
 
-        // Check collision with the bottom of the content
-        if (characterY + characterHeight >= contentHeight) {
-          characterY = contentHeight - characterHeight; // Prevent falling through the floor
-          character.style.top = `${characterY}px`;
-        }
-      }, 20);
+    // Check collision with the bottom of the content and the top (ceiling)
+    if (characterY + characterHeight >= contentHeight) {
+      characterY = contentHeight - characterHeight; // Prevent falling through the floor
+      character.style.top = `${characterY}px`;
+      isJumping = false; // Reset jump state
+    } else if (characterY <= 0) {
+      characterY = 0; // Prevent going above the ceiling
+      character.style.top = `${characterY}px`;
+    }
+  }, 20);
 
       document.addEventListener('keydown', function(event) {
         if (event.code === 'ArrowRight') {
