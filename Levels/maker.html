@@ -1,1 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Level Maker with Toolbox</title>
+  <style>
+    body {
+      margin: 0;
+      display: flex;
+      height: 100vh;
+    }
 
+    .toolbox {
+      width: 100px; /* Set width for the toolbox */
+      background-color: #f0f0f0; /* Toolbox background color */
+      border-right: 1px solid #ccc; /* Border on the right for separation */
+    }
+
+    .toolbox-item {
+      padding: 10px;
+      margin-bottom: 5px;
+      cursor: pointer;
+      transition: transform 0.2s; /* Smooth transition for scaling and positioning */
+    }
+
+    .toolbox-item img {
+      width: 32px; /* Set width of icons */
+      height: 32px; /* Set height of icons */
+    }
+
+    .toolbox-item.selected {
+      transform: scale(1.2) translateX(3px); /* Scale up and move slightly to the right */
+    }
+
+    .main-content {
+      flex: 1;
+      position: relative; /* Position relative for absolute positioning of new items */
+      background-color: #fff; /* Example background color */
+    }
+
+    .character {
+      position: absolute;
+      left: 50px; /* Set initial X position */
+      top: 860px; /* Set initial Y position */
+      width: 50px;
+      height: 50px;
+      background-color: red;
+      border-radius: 10px; /* Rounded corners */
+    }
+  </style>
+</head>
+<body>
+  <div class="toolbox">
+    <!-- Tool 1: Block -->
+    <div class="toolbox-item" onclick="selectTool(this)">
+      <img src="Resources/block.png" alt="Block">
+    </div>
+
+    <!-- Tool 2: Spike -->
+    <div class="toolbox-item" onclick="selectTool(this)">
+      <img src="Resources/spike.png" alt="Spike">
+    </div>
+    
+    <!-- Add more toolbox items with icons as needed -->
+  </div>
+  
+  <div class="main-content" onclick="placeSelectedItem(event)">
+    <!-- Main content area -->
+    <!-- Your level maker content goes here -->
+    <button onclick="spawnCharacter()">Test</button> <!-- Test button -->
+  </div>
+
+  <script>
+    let selectedTool = null;
+
+    function selectTool(tool) {
+      // Remove 'selected' class from all toolbox items
+      const toolboxItems = document.querySelectorAll('.toolbox-item');
+      toolboxItems.forEach(item => item.classList.remove('selected'));
+
+      // Add 'selected' class to the clicked toolbox item
+      tool.classList.add('selected');
+      selectedTool = tool.querySelector('img').cloneNode(); // Keep a reference to the selected tool icon
+    }
+
+    function placeSelectedItem(event) {
+      if (selectedTool) {
+        const newItem = selectedTool.cloneNode(); // Create a new item using the selected tool icon
+        newItem.style.position = 'absolute'; // Set position absolute for precise placement
+
+        // Position the item 130 pixels to the left and 30 pixels above the mouse pointer's position
+        newItem.style.left = `${event.clientX - 130}px`; // Adjusted horizontal position
+        newItem.style.top = `${event.clientY - 30}px`; // Adjusted vertical position
+        newItem.style.width = '50px'; // Set the width of the placed object
+        newItem.style.height = '50px'; // Set the height of the placed object
+
+        document.querySelector('.main-content').appendChild(newItem); // Append the new item to the main content
+      }
+    }
+
+    let characterY = 860; // Default Y position
+    let isJumping = false; // Flag to control jumping
+    const gravityForce = 8; // Gravity value
+    const jumpForce = -15; // Jump force
+
+    function spawnCharacter() {
+      const character = document.createElement('div');
+      character.classList.add('character'); // Add character class for styling
+      document.querySelector('.main-content').appendChild(character);
+
+      setInterval(() => {
+        // Apply gravity to Y position
+        if (!isJumping) {
+          characterY += gravityForce;
+          character.style.top = `${characterY}px`;
+        }
+
+        const contentHeight = document.querySelector('.main-content').clientHeight; // Get content height
+        const characterHeight = character.clientHeight; // Get character height
+
+        // Check collision with the bottom of the content
+        if (characterY + characterHeight >= contentHeight) {
+          characterY = contentHeight - characterHeight; // Prevent falling through the floor
+          character.style.top = `${characterY}px`;
+        }
+      }, 20);
+
+      document.addEventListener('keydown', function(event) {
+        if (event.code === 'ArrowRight') {
+          const characterX = parseInt(character.style.left) || 0;
+          character.style.left = `${characterX + 10}px`;
+        } else if (event.code === 'ArrowLeft') {
+          const characterX = parseInt(character.style.left) || 0;
+          character.style.left = `${characterX - 10}px`;
+        } else if (event.code === 'Space' && !isJumping) {
+          isJumping = true;
+          jump();
+        }
+      });
+
+    function jump() {
+      let jumpInterval = setInterval(() => {
+        const characterTop = parseInt(character.style.top) || 0;
+
+        if (characterTop <= 0) {
+          isJumping = false;
+          clearInterval(jumpInterval);
+        } else {
+          characterY -= 10; // Move character upwards by reducing its Y position
+          character.style.top = `${characterY}px`;
+        }
+      }, 20);
+    }
+  </script>
+</body>
+</html>
